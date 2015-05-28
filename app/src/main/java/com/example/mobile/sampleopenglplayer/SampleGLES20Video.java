@@ -1,8 +1,5 @@
 package com.example.mobile.sampleopenglplayer;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.util.Log;
@@ -138,21 +135,20 @@ public class SampleGLES20Video {
 
         // Assign GL_TEXTURE0 to fragment shader Sampler2D object "texture"
         GLES20.glUseProgram(mProgram);
-       // int texture;
-        //texture = GLES20.glGetUniformLocation(mProgram, "texture");
-        //GLES20.glUniform1i(texture, GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
+        int texture;
+        texture = GLES20.glGetUniformLocation(mProgram, "texture");
+        GLES20.glUniform1i(texture, 0 /* texture unit 0 */);
 
         // Create "One" "texture object"
         GLES20.glGenTextures(1, textureHandle, 0);
-        GLES20.glActiveTexture(textureHandle[0]);
+        GLES20.glActiveTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
         // Use GL_TEXTURE_EXTERNAL_OES instead of GL_TEXTURE0 for video stream comes from SurfaceTexture
         // http://developer.android.com/reference/android/graphics/SurfaceTexture.html
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureHandle[0]);
 
         // Set up filter - GL_LINEAR for better image quality
-        //GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-        //GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-
+        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
     }
 
     public int getTextureHandle() {
