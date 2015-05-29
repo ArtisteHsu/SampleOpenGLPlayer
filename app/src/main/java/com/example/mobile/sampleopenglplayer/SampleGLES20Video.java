@@ -19,9 +19,9 @@ public class SampleGLES20Video {
     // http://www.matrix44.net/cms/notes/opengl-3d-graphics/understanding-gl_triangle_strip
     private float vertexCoords[] = {
             -1.0f, -1.0f, 0.0f, // Bottom-Left
-            1.0f, -1.0f, 0.0f, // Bottom-Right
+             1.0f, -1.0f, 0.0f, // Bottom-Right
             -1.0f,  1.0f, 0.0f, // Top-Left
-            1.0f,  1.0f, 0.0f  // Top-Right
+             1.0f,  1.0f, 0.0f  // Top-Right
     };
     private FloatBuffer textureBuffer;
     // Texturing UV coordinates
@@ -141,7 +141,7 @@ public class SampleGLES20Video {
 
         // Create "One" "texture object"
         GLES20.glGenTextures(1, textureHandle, 0);
-        GLES20.glActiveTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         // Use GL_TEXTURE_EXTERNAL_OES instead of GL_TEXTURE0 for video stream comes from SurfaceTexture
         // http://developer.android.com/reference/android/graphics/SurfaceTexture.html
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureHandle[0]);
