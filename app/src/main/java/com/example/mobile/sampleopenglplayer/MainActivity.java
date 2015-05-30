@@ -1,6 +1,7 @@
 package com.example.mobile.sampleopenglplayer;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ public class MainActivity extends Activity implements SurfaceTexture.OnFrameAvai
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         sampleMediaCodec = new SampleMediaCodec();
         glSurfaceView = new GLSurfaceView(this);
