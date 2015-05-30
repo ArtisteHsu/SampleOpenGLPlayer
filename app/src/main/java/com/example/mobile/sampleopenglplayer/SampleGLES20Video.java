@@ -1,14 +1,21 @@
 package com.example.mobile.sampleopenglplayer;
 
+import android.graphics.Bitmap;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.util.Log;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class SampleGLES20Video {
+    int surfaceWidth;
+    int surfaceHeight;
+    String screenshotName;
+
     private static final int COORDS_PER_VERTEX = 3;
     private static final int COORDS_PER_TEXTURE = 2;
     private static final int BYTES_PER_FLOAT = 4;
@@ -76,6 +83,28 @@ public class SampleGLES20Video {
         return shader;
     }
 
+    // Create bitmap of video returned by glReadPixels()
+    // Must be called in context of onFrameDraw()
+    private void createBitmap(String fileName) {
+        Bitmap videoFrame;
+        int size = surfaceWidth * surfaceHeight;
+        ByteBuffer buf = ByteBuffer.allocateDirect(size * 4);
+        buf.order(ByteOrder.nativeOrder());
+        GLES20.glReadPixels(0, 0, surfaceWidth, surfaceHeight, GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, buf);
+        int data[] = new int[size];
+        buf.asIntBuffer().get(data);
+        videoFrame = Bitmap.createBitmap(surfaceWidth, surfaceHeight, Bitmap.Config.ARGB_8888);
+        videoFrame.setPixels(data, size-surfaceWidth, -surfaceWidth, 0, 0, surfaceWidth, surfaceHeight);
+        FileOutputStream fileOutputStream;
+        try {
+            fileOutputStream = new FileOutputStream(fileName);
+            videoFrame.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        videoFrame.recycle();
+    }
+
     public void draw() {
         int mPositionHandle;
         int mTexCoordHandle;
@@ -107,6 +136,11 @@ public class SampleGLES20Video {
         // Disable vertex handle
         GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glDisableVertexAttribArray(mTexCoordHandle);
+
+        if (screenshotName != null) {
+            createBitmap(screenshotName);
+            screenshotName = null;
+        }
     }
 
     public SampleGLES20Video() {
@@ -153,5 +187,14 @@ public class SampleGLES20Video {
 
     public int getTextureHandle() {
         return textureHandle[0];
+    }
+
+    public void setResolution(int w, int h) {
+        surfaceWidth = w;
+        surfaceHeight = h;
+    }
+
+    public void screenshot(String fileName) {
+        screenshotName = fileName;
     }
 }

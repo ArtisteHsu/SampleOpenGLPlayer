@@ -28,7 +28,7 @@ public class SampleGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+        sampleGL20Video.setResolution(width, height);
     }
 
     public int getTextureHandle() {
@@ -38,5 +38,9 @@ public class SampleGLRenderer implements GLSurfaceView.Renderer {
     public void updateTexture(SurfaceTexture st) {
         // Update SurfaceText pointer to update texture in next call of onDrawFrame()
         surfaceTexture = st;
+    }
+
+    public void screenshot(String fileName) {
+        sampleGL20Video.screenshot(fileName);
     }
 }
