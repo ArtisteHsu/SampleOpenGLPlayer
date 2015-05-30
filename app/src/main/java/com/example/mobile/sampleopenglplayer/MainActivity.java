@@ -52,7 +52,7 @@ public class MainActivity extends Activity implements SurfaceTexture.OnFrameAvai
                 surfaceTexture.setOnFrameAvailableListener(this);
                 surface = new Surface(surfaceTexture);
             }
-            sampleMediaCodec.play(this, surface);
+            sampleMediaCodec.play(this, surface, "sdcard/Movies/h264_1080p.mp4");
         }
 
         return super.onOptionsItemSelected(item);
