@@ -55,7 +55,7 @@ public class MainActivity extends Activity implements SurfaceTexture.OnFrameAvai
                 surfaceTexture.setOnFrameAvailableListener(this);
                 surface = new Surface(surfaceTexture);
             }
-            sampleMediaCodec.play(this, surface, "sdcard/Movies/h264_1080p.mp4");
+            sampleMediaCodec.play(this, surface, "sdcard/Movies/h264_720p.mp4");
         } else if (id == R.id.action_screenshot) {
             String fileName = "sdcard/Pictures/screenshot.jpg";
             glRenderer.screenshot(fileName);

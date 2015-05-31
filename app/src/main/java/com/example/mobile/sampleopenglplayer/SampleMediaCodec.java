@@ -222,8 +222,15 @@ public class SampleMediaCodec {
                     Log.v(TAG, "Last frame");
                     break;
                 }
+            } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                Log.d(TAG, "Output buffer format is changed  " + decoder.getOutputFormat());
+            } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                // Deprecated in API Level 21
+                Log.d(TAG, "Output buffer is changed (deprecated) ");
+            } else if (outputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
+                Log.d(TAG, "Output buffer is not ready (" + outputBufferIndex + "), try again");
             } else {
-                Log.d(TAG, "Output buffer is not ready (" + outputBufferIndex + ")");
+                Log.d(TAG, "Other output buffer error (" + outputBufferIndex + ")");
             }
         }
         Log.v(TAG, "Play complete");
